@@ -17,6 +17,7 @@ const options = {
     const selectedDate = selectedDates[0];
     // Check if selected date is in the past
     if (selectedDate < new Date()) {
+      startButton.disabled = true;
       // Use iziToast for notification
       iziToast.warning({
         title: 'Warning',
@@ -39,31 +40,27 @@ const daysEl = document.querySelector('[data-days]');
 const hoursEl = document.querySelector('[data-hours]');
 const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
+const timePicker = document.querySelector('#datetime-picker');
 
 // Event listener for the start button
 startButton.addEventListener('click', startCountdown);
 
+startButton.disabled = true;
+
 // Function to start the countdown
 function startCountdown() {
-  // Disable the start button to prevent multiple clicks
+  // Disable the start button and input to prevent multiple clicks
   startButton.disabled = true;
+  timePicker.disabled = true;
 
   // Set an interval to update the countdown every second
   const timerId = setInterval(() => {
     const currentTime = new Date();
     const timeLeft = countdownDate - currentTime;
-    // Check if the time difference is positive
-    if (timeLeft < 0) {
-      clearInterval(timerId);
-      iziToast.error({
-        title: 'Error',
-        message: 'Selected time is in the past!',
-      });
-      return;
-    }
     // Stop the timer when the countdown reaches zero
-    if (timeLeft === 0) {
+    if (timeLeft <= 0) {
       clearInterval(timerId);
+      timePicker.disabled = false;
       iziToast.info({ title: 'Finished', message: 'Countdown finished!' });
       return;
     }
