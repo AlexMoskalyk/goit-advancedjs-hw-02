@@ -7,12 +7,15 @@ let interval = null;
 startBtn.addEventListener('click', startChangeColor);
 stopBtn.addEventListener('click', stopChangeColor);
 
+stopBtn.disabled = true;
+
 function startChangeColor() {
   if (interval) {
     return;
   }
 
   startBtn.disabled = true;
+  stopBtn.disabled = false;
 
   interval = setInterval(changeBackgroundColor, 1000);
 }
@@ -23,6 +26,7 @@ function stopChangeColor() {
     interval = null;
   }
   startBtn.disabled = false;
+  stopBtn.disabled = true;
 }
 
 function changeBackgroundColor() {
